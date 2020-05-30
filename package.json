@@ -1,0 +1,15 @@
+{
+  "name": "node-fun",
+  "version": "1.0.0",
+  "description": "Playing with Node js for fun",
+  "main": "index.js",
+  "dependencies": {
+  
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hemant Negi",
+  "license": "ISC"
+}
