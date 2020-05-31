@@ -37,3 +37,14 @@ deleteMany(filter, option)
 
 ----
 
+
+## Projections
+
+Retirive only fields which you need
+
+db.users.find({}, {name:1}).pretty()  // show only names 
+db.users.find({}, {name:1, _id: 0}).pretty() // remove fields which are coming by default
+
+
+
+
