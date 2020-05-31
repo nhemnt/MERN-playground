@@ -7,6 +7,8 @@ db.collection_name.insertOne({});
 
 
 ## CRUD
+(Official Getting Started Docs)[https://docs.mongodb.com/manual/tutorial/getting-started/]
+
 ### Create
 inserOne(data, option)
 insertMany(data, option)
@@ -45,6 +47,20 @@ Retirive only fields which you need
 db.users.find({}, {name:1}).pretty()  // show only names 
 db.users.find({}, {name:1, _id: 0}).pretty() // remove fields which are coming by default
 
+## Embeded documents
+In mongo we can have upto 100th level of nesting and upto 60mb of data
+
+ex
+db.users.updateMany({}, { $set: { lastSeen: {
+    location: "office",
+    time: timestamp,
+    details : {
+        withWhom: "negi",
+        realtion: "friend"
+    }
+}}})
+
+db.users.updateOne({userName: "nhemnt"}, {$set: {hobbies: ["coding", "football", "travelling", "music"]}})
 
 
 
