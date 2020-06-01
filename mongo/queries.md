@@ -1,7 +1,10 @@
 # Mongo queries
 
 use DATABASE_NAME
-show collections
+db.dropDatabase() //drop databse
+show collections 
+db.stats() //get db stats
+db.collection.drop() //drop collection
 db.collection_name.find().pretty()
 db.collection_name.insertOne({});
 
