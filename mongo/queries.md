@@ -8,6 +8,8 @@ db.collection.drop() //drop collection
 db.collection_name.find().pretty()
 db.collection_name.insertOne({});
 
+db.runCommand({collMod: "collection_name", validator}) //run from shell --collMod - Collection modifier
+
 
 ## CRUD
 (Official Getting Started Docs)[https://docs.mongodb.com/manual/tutorial/getting-started/]
@@ -115,5 +117,82 @@ db.createCollection("collection_name", {
     },
   },
 })
+
+```
+
+### Update collection validations
+
+```javascript
+
+db.createCollection("collection_name", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["field_name_1", "field_name_2", "field_name_3"],
+      properties: {
+        field_name_1: {
+          bsonType: "string",
+          description: "must be a string and required!",
+        },
+        field_name_2: {
+          bsonType: "objectId",
+          description: "must be a Object id and required!",
+        },
+        field_name_3: {
+          bsonType: "array",
+          required: ["sub_field_name_1", "sub_field_name_2"],
+          description: "must be a Array id and required!",
+          properties: {
+            sub_field_name_1: {
+              bsonType: "string",
+              description: "must be a string and required!",
+            },
+            sub_field_name_2: {
+              bsonType: "objectId",
+              description: "must be a objectId and required!",
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
+db.runCommand({
+  collMod: "collection_name",
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["field_name_1", "field_name_2", "field_name_3"],
+      properties: {
+        field_name_1: {
+          bsonType: "string",
+          description: "must be a string and required!",
+        },
+        field_name_2: {
+          bsonType: "objectId",
+          description: "must be a Object id and required!",
+        },
+        field_name_3: {
+          bsonType: "array",
+          required: ["sub_field_name_1", "sub_field_name_2"],
+          description: "must be a Array id and required!",
+          properties: {
+            sub_field_name_1: {
+              bsonType: "string",
+              description: "must be a string and required!",
+            },
+            sub_field_name_2: {
+              bsonType: "objectId",
+              description: "must be a objectId and required!",
+            },
+          },
+        },
+      },
+    },
+  },
+  valdationAction: "warn", //by deafult error
+});
+
 
 ```
