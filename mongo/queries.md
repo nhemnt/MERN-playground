@@ -180,3 +180,51 @@ db.runCommand({
 
 
 ```
+
+## Insert
+
+### InsertOne
+db.users.insertOne({ name: "heamnt", age: 25 })
+
+### InsertMany
+db.users.insertMany([{ name: "heamnt", age: 25 }, { name: "negi", age: 22 }])
+
+### Insert
+db.users.insert({ name: "heamnt", age: 25 })
+db.users.insert([{ name: "heamnt", age: 25 }, { name: "negi", age: 22 }])
+
+
+## Ordered Insert | Unordered Insert
+By default bulk insert ex insertMany use ordered inserts
+
+To achieve multi upload even after error
+
+we can use 2nd parameter in insertMany { ordered: false }
+
+db.users.insertMany([{ name: "heamnt", age: 25 }, { name: "negi", age: 22 }], { ordered: false })
+
+
+## writeConcer
+
+w - the w option to request acknowledgment that the write operation has propagated to a specified
+j - number of mongod instances or to mongod instances with specified tags.
+the j option to request acknowledgment that the write operation has been written to the on-disk journal, and
+wtimeout - the wtimeout option to specify a time limit to prevent write operations from blocking indefinitely.
+
+ex-  { w:1, j: true, wtimeout:200 }
+
+Query Example
+[superFast, less security]
+db.users.insertOne({ name: "heamnt" }, { writeConcern: {w: 0} })
+just send the req to db server to save and return with { acknowledged: false }
+
+
+default case
+db.users.insertOne({ name: "heamnt" }, { writeConcern: {w: 1} })
+
+journal true - giving response only when you write the data in journal
+[take more time than usual, higher security]
+db.users.insertOne({ name: "heamnt" }, { writeConcern: { w: 1, j: true } })
+
+wtimeout
+db.users.insertOne({ name: "heamnt" }, { writeConcern: { w: 1, j: true, wtimeout: 200 } })
