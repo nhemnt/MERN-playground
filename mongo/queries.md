@@ -228,3 +228,6 @@ db.users.insertOne({ name: "heamnt" }, { writeConcern: { w: 1, j: true } })
 
 wtimeout
 db.users.insertOne({ name: "heamnt" }, { writeConcern: { w: 1, j: true, wtimeout: 200 } })
+
+## Atomicity
+write operation is atomic on the level of a single document, even if the operation modifies multiple embedded documents within a single document.
