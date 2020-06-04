@@ -231,3 +231,11 @@ db.users.insertOne({ name: "heamnt" }, { writeConcern: { w: 1, j: true, wtimeout
 
 ## Atomicity
 write operation is atomic on the level of a single document, even if the operation modifies multiple embedded documents within a single document.
+
+
+## Importing Data
+
+mongoimport file_path -d database_name -c collection_name --jsonArray --drop
+
+--jsonArray  - telling mongoDb json is array
+--drop - if collection is there then drop and update all data else by default data is appended
