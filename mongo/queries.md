@@ -316,3 +316,22 @@ $meta -	Projects the document’s score assigned during $text operation.
 $slice -	Limits the number of elements projected from an array. Supports skip and limit slices.
 
 ---
+###  Operators Queries example 
+ 
+db.movies.find({runtime:60}) is Equal to 
+db.movies.find({runtime: {$eq: 60}})
+
+db.movies.find({runtime: {$lte: 60}})
+
+Embeded filter
+db.movies.find({"rating.average": {$gt: 9}}).pretty()
+
+
+include element in array
+db.movies.find({"genres": "Drama"}).pretty()
+
+exactly one element in array
+db.movies.find({"genres": ["Drama"]}).pretty()
+
+
+db.movies.find({runtime: {$in: [30, 42]}})
