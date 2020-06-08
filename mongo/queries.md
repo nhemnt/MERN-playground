@@ -317,7 +317,7 @@ $slice -	Limits the number of elements projected from an array. Supports skip an
 
 ---
 ###  Operators Queries example 
- 
+
 db.movies.find({runtime:60}) is Equal to 
 db.movies.find({runtime: {$eq: 60}})
 
@@ -335,3 +335,25 @@ db.movies.find({"genres": ["Drama"]}).pretty()
 
 
 db.movies.find({runtime: {$in: [30, 42]}})
+
+
+Or condition -  (age == 30 || age ==40) || name == "he*" // name starts with he
+db.users.find({$or: [{age: {$in: [30, 40]}}, {name: /^he/}]})
+
+nor is opp of or
+
+db.users.find({$nor: [{age: {$in: [30, 40]}}, {name: /^he/}]})
+
+
+And condition - age == 30 || age ==40) && name == "he*" // name starts with he
+db.users.find({$and: [{age: {$in: [30, 40]}}, {name: /^he/}]})
+db.users.find({name: "ram", name: /^he/ }) // wrong way as name: "ram" will be overwirtten by name: /^he/ as javascript object can not have two keys
+
+
+
+
+
+### Element Queries Example
+
+db.users.find({age: {exists: true}}).pretty() // get all the elements which have age fields
+db.users.find({age: {exists: false}}).pretty() // get all the elements which dont have age fields
