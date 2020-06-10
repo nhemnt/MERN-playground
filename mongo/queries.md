@@ -416,3 +416,9 @@ db.users.find({"hobbies.title": "sports"})
  //get list of all the users which have exactly 3 hobbies.
 
  db.users.find({hobbies: {$size: 3}});
+
+
+//The $all operator selects the documents where the value of a field is an array that contains all the specified elements. To specify an $all expression, use the following prototype:
+{ <field>: { $all: [ <value1> , <value2> ... ] } }
+
+ db.users.find({hobbies: {$all: ["yoga", "sports"]}})
