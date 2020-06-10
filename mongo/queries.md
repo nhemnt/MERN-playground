@@ -357,3 +357,40 @@ db.users.find({name: "ram", name: /^he/ }) // wrong way as name: "ram" will be o
 
 db.users.find({age: {exists: true}}).pretty() // get all the elements which have age fields
 db.users.find({age: {exists: false}}).pretty() // get all the elements which dont have age fields
+
+db.users.find({age: {exists: true, type: number}}).pretty() // get all the elements which have age fields and type number
+
+
+
+### Evalaution Queries Example
+db.users.find({name: {$regex: /hem/}}).pretty();
+
+db.users.find({$expr: {$gt: ["$height", "$length"] }}) //find all users where height are greater than length
+
+
+#### find all user where user have more marks in maths than science, but if user have more than 250 marks in maths than the marks in maths will be original marks subtract 50.
+ 
+```javascript
+
+ db.users.find(
+    {
+      $expr: {
+        $gt: [
+          {
+            $cond: {
+              if: {
+                $gte: ["$marks.maths", 250]
+              },
+              then: {
+                $subtract: ["$marks.maths", 50]
+              },
+              else: "$marks.maths"              
+            }
+          },
+          "$marks.science"
+        ]
+      }
+    }
+  )
+
+```
