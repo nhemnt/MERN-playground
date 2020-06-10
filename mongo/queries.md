@@ -369,7 +369,7 @@ db.users.find({$expr: {$gt: ["$height", "$length"] }}) //find all users where he
 
 
 #### find all user where user have more marks in maths than science, but if user have more than 250 marks in maths than the marks in maths will be original marks subtract 50.
- 
+
 ```javascript
 
  db.users.find(
@@ -394,3 +394,25 @@ db.users.find({$expr: {$gt: ["$height", "$length"] }}) //find all users where he
   )
 
 ```
+
+
+db.users.find({"hobbies.title": "sports"})
+ 
+ // if hobbies are array object containg title fields
+ ex - {
+   hobbies: [
+    {
+      title: "sports",
+      frequency: "12"
+    },
+    {
+      title: "yoga",
+      frequency: "12"
+    }
+   ]
+ }
+
+
+ //get list of all the users which have exactly 3 hobbies.
+
+ db.users.find({hobbies: {$size: 3}});
