@@ -439,3 +439,37 @@ we can use $elemMatch instead
 
 db.users.find({hobbies: {$elemMatch: {title: "sports", "freqnoOfYearPlayed": 2}}})
 
+
+
+### Cursor
+
+const cursor = db.users.find()
+
+cursor.count()  //gives count
+cursor.pretty()  //gves pretty count of first 20
+cursor.next()  //gices next document ex- 21th element
+cursor.forEach(doc => { printjson(doc)}) //print all document from 22 - end;
+
+cursor.hasNext() //true if cursor has data else false(expires)
+
+
+
+## Sort
+
+db.users.find().sort({"age": 1})
+// 1 -- ASC
+// -1 -- DES
+
+//get all user sorted by age and their salleriesin ascending order
+
+db.users.find().sort({"age": 1}, {sallery : 1}).pretty()
+
+## Skip And Limit (pagination)
+db.users.find().sort({"age": 1}, {sallery : 1}).skip(10).pretty()
+
+db.users.find().sort({"age": 1}, {sallery : 1}).skip(10).limit(10).pretty()
+
+
+## Projection - get limited data
+
+db.users.find({}, { name:1, age:1, "hobbies.title": 1}) //get only name, age and hobbies title
