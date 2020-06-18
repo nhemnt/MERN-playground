@@ -206,8 +206,8 @@ db.users.insertMany([{ name: "heamnt", age: 25 }, { name: "negi", age: 22 }], { 
 
 ## writeConcer
 
-w - the w option to request acknowledgment that the write operation has propagated to a specified
-j - number of mongod instances or to mongod instances with specified tags.
+the w option to request acknowledgment that the write operation has propagated to a specified
+j number of mongod instances or to mongod instances with specified tags.
 the j option to request acknowledgment that the write operation has been written to the on-disk journal, and
 wtimeout - the wtimeout option to specify a time limit to prevent write operations from blocking indefinitely.
 
@@ -422,3 +422,20 @@ db.users.find({"hobbies.title": "sports"})
 { <field>: { $all: [ <value1> , <value2> ... ] } }
 
  db.users.find({hobbies: {$all: ["yoga", "sports"]}})
+
+
+
+
+
+//find all user where hobbie is sports and number Of year played 2
+
+db.users.find({$and: [{"hobbies.title": "sports", "hobbies.noOfYearPlayed": 2}]}).pretty();
+
+drawback-
+it gave back all the document which have title sports and frequency 2 but not necessary both title and  freauency are part of one object.
+
+
+we can use $elemMatch instead
+
+db.users.find({hobbies: {$elemMatch: {title: "sports", "freqnoOfYearPlayed": 2}}})
+
