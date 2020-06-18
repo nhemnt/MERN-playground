@@ -473,3 +473,14 @@ db.users.find().sort({"age": 1}, {sallery : 1}).skip(10).limit(10).pretty()
 ## Projection - get limited data
 
 db.users.find({}, { name:1, age:1, "hobbies.title": 1}) //get only name, age and hobbies title
+
+## Projection in array
+
+db.users.find({hobbies: "sports"}, {"hobbies.$": 1 })
+
+## Projection Slice 
+db.users.find({age: 21}, {"hobbies": { $slice: 2}, name: 1}); //give name and max two hobbies for  each user who have age 21
+
+db.users.find({age: 21}, {"hobbies": { $slice: [1,2]}, name: 1}); //give name and max two hobbies for  each user and skip first hobby also user must have age 21
+
+$slice - [1,2]  skip - 1 element, limit - 2 element limit
