@@ -484,3 +484,82 @@ db.users.find({age: 21}, {"hobbies": { $slice: 2}, name: 1}); //give name and ma
 db.users.find({age: 21}, {"hobbies": { $slice: [1,2]}, name: 1}); //give name and max two hobbies for  each user and skip first hobby also user must have age 21
 
 $slice - [1,2]  skip - 1 element, limit - 2 element limit
+
+
+
+# Update
+
+
+$currentDate --	Sets the value of a field to current date, either as a Date or a Timestamp.
+
+$inc --	Increments the value of the field by the specified amount.
+
+$min --	Only updates the field if the specified value is less than the existing field value.
+
+$max --	Only updates the field if the specified value is greater than the existing field value.
+
+$mul --	Multiplies the value of the field by the specified amount.
+
+$rename --	Renames a field.
+
+$set --	Sets the value of a field in a document.
+
+$setOnInsert --	Sets the value of a field if an update results in an insert of a document. Has no effect on update operations that modify existing documents.
+
+$unset --	Removes the specified field from a document.
+
+
+
+## update a field 
+
+db.users.updateOne({_id: ObjectId("5ef0f5a32a9f1315201a030b")}, {$set: {hobbies: [{title: "sports", frequency: 9}]}})
+
+## $set
+
+db.users.updateMany({"hobbies.title": "Sports"}, {$set: { premium: true, age: 21}} )
+
+## $inc
+
+db.users.updateOne({name: "hemant"}, {$inc : {}, $set: {}}) //we can also use $set next to $inc
+
+db.users.updateOne({name: "hemant"}, {$inc : {age: 1})
+//Decrement
+db.users.updateOne({name: "hemant"}, {$inc : {age: -1})
+
+
+## $min
+
+//set age of hemant to 30 if updated value is less than current value
+ex- 30 < current heamnt's age
+
+db.users.updateOne({"name": "hemant"}, {$min: { age: 30}})
+
+## max
+
+//set age of hemant to 30 if updated value is greater than current value
+ex- 30 > current heamnt's age
+
+db.users.updateOne({"name": "hemant"}, {$max: { age: 30}})
+
+## $mul
+
+//set goods of value to 10 times more
+
+db.user.updateOne({"name": "hemant}, {$mul : {goods: 1.1}});
+
+
+
+## $unset
+
+remove the fields hobbies of all user which have age greater than 45
+
+db.users.updateMany({$gt: {age: 45}}, {hobbies: null}); // make hobbies: null
+
+db.users.updateMany({$gt: {age: 45}}, {$unset: {hobbies: ""}}); // drop the keys
+
+
+## $rename
+
+//update all users name to username
+
+db.users.updateMany({}, {$rename: {name: "username"}});
