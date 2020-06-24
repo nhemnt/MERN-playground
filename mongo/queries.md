@@ -563,3 +563,34 @@ db.users.updateMany({$gt: {age: 45}}, {$unset: {hobbies: ""}}); // drop the keys
 //update all users name to username
 
 db.users.updateMany({}, {$rename: {name: "username"}});
+
+
+## $upsert - update and insert
+
+by defaul upsert is false
+if documnet does not exist while updating, mongodb will create new element when upsert is true
+
+ex-
+db.users.updateOne({name: "hemant"}, {age: 24. hobbies: [{"tilte": "movies", frequence: 1}]}, {upsert: true});
+
+
+
+## update in array
+
+db.users.find({$and: [{"hobbies.title": "cooking"}, {hobbies.frequence: {$gte: 4}]})
+
+//add isPaid field to true in all user which have hobbies tilte sports and their frequence is greater than 3 
+db.users.updateMany(
+  {
+    hobbies: {
+      $elemMatch: {
+        title: "sports",
+        frequence: {gte: 3}
+      }
+    }
+  },
+  {
+  $set: {
+    "hobbies.$.isPaid": true
+    }
+})
