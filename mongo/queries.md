@@ -683,3 +683,25 @@ db.users.updateOne(
     }
   }
 )
+
+
+## Delete
+
+delete a user which have a name hemant
+
+db.users.deleteOne({name: "hemant"});
+
+db.users.deleteMany({age: {$gt: 50}, sallery: {$gt: 50000});
+
+
+## delete collection
+
+db.users.deleteMany({})
+
+db.users.drop();
+
+## delete database
+
+db.dropDatabase();
+
+
