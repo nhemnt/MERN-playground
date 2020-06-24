@@ -577,6 +577,10 @@ db.users.updateOne({name: "hemant"}, {age: 24. hobbies: [{"tilte": "movies", fre
 
 ## update in array
 
+$ - gives first matching element
+$[] - gives all array element
+$[el] - give element to each array, then use arrayFilters to apply conditions
+
 db.users.find({$and: [{"hobbies.title": "cooking"}, {hobbies.frequence: {$gte: 4}]})
 
 //add isPaid field to true in all user which have hobbies tilte sports and their frequence is greater than 3 
@@ -594,3 +598,88 @@ db.users.updateMany(
     "hobbies.$.isPaid": true
     }
 })
+
+
+db.users.updateMany({
+    age: {$gt: 25}
+  },
+  {
+    $inc: {"hobbies.$[].frequency": -1 }
+  }
+)
+
+## $arrayFilters
+
+db.users.updateMany({
+    "hobbies.frequency": {$gt: 3}
+  },
+  {
+    $set: {
+      "hobbies.$[el].averageFrequency": true
+    }
+  },
+  {
+    arrayFilters: [{"el.frequency": {$gt: 2}}]
+  }
+)
+
+## $push or $addToSet
+// $push and $addToSet do the same things that is they add data in array.
+but $push add duplicates and $addToSet does not add duplicates
+//use $push instead of $set to push element in array
+
+db.users.updateOne({name: "hemant"}, {$push: { "hobbies": {title: "cooking", frequency: 4}});
+
+insert mutiple data with push using $each
+
+db.users.updateOne({name: "heamnt"}, {$push: {"hobbies": {$each: [{title: "medication", frequency: 3},{title: "yoga", frequency: 4}]}}})
+
+// $each have a similar method $sort - how the new element should be sorted before we push them in the data
+// also we have slice to slice array
+for example sorting by frequency in descending order
+slice to one element
+db.users.updateOne(
+  {name: "heamnt"},
+  {
+    $push: {
+      "hobbies": {
+        $each: [{title: "medication", frequency: 3},{title: "yoga", frequency: 4}],
+        $sort: { frequency: -1},
+        $slice: 1
+      }
+    }
+  }
+)
+
+
+## $pull
+//to pull data from array
+
+// ex- remove all the title with medication  from hobbies of hemant
+
+db.users.updateOne(
+  {name: "heamnt"},
+  {
+    $pull: {
+      "hobbies": {
+        "title": "medication"
+      }
+    }
+  }
+)
+
+## $pop
+// remove last element od array
+1 - to remove last element
+-1 - to remove first element
+
+ex - remove last hobby of user hemant
+
+db.users.updateOne(
+  {name: "heamnt"},
+  {
+    $pop: {
+      "hobbies": 1
+    }
+  }
+)
